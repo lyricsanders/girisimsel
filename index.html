@@ -3,134 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ayarlar</title>
-  <!-- Font Awesome ile simgeleri ekliyoruz -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
+  <title>Plastik Cerrahi Doktoru Ekleme</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <style>
-    /* Sayfanın genel stilini ayarlıyoruz */
+    /* Bu stil, indexstil'e benzer şekilde uygulanacaktır */
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      display: flex;
-      height: 100vh;
-      background-color: #1f1f1f; /* Koyu arka plan */
-      color: #f1f1f1;
+      background-color: #f4f4f4;
     }
-
-    /* Sol sütun: Bar kısmı (2/16 genişlik) */
-    #left-column {
-      width: 12%; /* Başlangıç genişliği */
-      background-color: #2c2f36; /* Koyu gri tonları */
-      padding: 20px 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      height: 100vh;
-      transition: width 0.3s ease, background-color 0.3s ease;
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
     }
-
-    /* Sol bar üzerine gelindiğinde daha modern genişleme efekti */
-    #left-column:hover {
-      width: 18%; /* Genişleme oranı */
-      background-color: #383d44; /* Hover sırasında arka plan rengi değişir */
-    }
-
-    /* Sağ sütun: Sayfa içeriği (14/16 genişlik) */
-    #right-column {
-      width: 88%; /* Sağ sütun genişliği */
-      padding: 0;
-      box-sizing: border-box;
-      height: 100vh;
-      background-color: #262d34; /* Koyu gri içerik arka planı */
-      border: none; /* Alt kenarlığı kaldırıyoruz */
-    }
-
-    /* Butonlar için şık stil */
-    button {
+    table {
       width: 100%;
-      padding: 15px 20px;
-      margin: 15px 0;
-      background: #444; /* Koyu gri arka plan */
-      color: white;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
+      margin: 20px 0;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
       text-align: left;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      box-sizing: border-box;
-      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     }
-
-    /* Buton üzerine gelindiğinde efekt */
-    button:hover {
-      background: #5e5e5e;
-      transform: scale(1.05);
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Hafif gölge efekti */
+    th {
+      background-color: #333;
+      color: white;
     }
-
-    /* Buton simgeleri için stil */
-    button i {
-      margin-right: 15px;
-      font-size: 20px; /* Simge boyutu */
+    .form-container {
+      margin: 20px 0;
     }
-
-    /* iframe içerik alanı */
-    iframe {
-      width: 100%;
-      height: 100%;
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      margin-right: 10px;
+    }
+    .btn {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
       border: none;
-      border-radius: 8px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
     }
-
+    .btn:hover {
+      background-color: #555;
+    }
+    .icon-btn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .icon-btn:hover {
+      color: #555;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Sol Sütun: Butonlar -->
-  <div id="left-column">
-    <button onclick="showPage('anasayfa.html')">
-      <i class="fas fa-home"></i> Anasayfa
-    </button>
-    <button onclick="showPage('hastaekleme.html')">
-      <i class="fas fa-user-plus"></i> Hasta Ekleme
-    </button>
-    <button onclick="showPage('cagriekrani.html')">
-      <i class="fas fa-bell"></i> Çağrı Ekranı
-    </button>
-    <button onclick="showPage('cagritakip.html')">
-      <i class="fas fa-phone-alt"></i> Çağrı Takip
-    </button>
-    <button onclick="showPage('pcdefteri.html')">
-      <i class="fas fa-book"></i> PC Defteri
-    </button>
-    <button onclick="showPage('gcdefteri.html')">
-      <i class="fas fa-book-open"></i> GC Defteri
-    </button>
-    <button onclick="showPage('ayarlar.html')">
-      <i class="fas fa-cogs"></i> Ayarlar
-    </button>
-  </div>
+<header>
+  <h1>Plastik Cerrahi Doktoru Ekleme</h1>
+</header>
 
-  <!-- Sağ Sütun: İçerik -->
-  <div id="right-column">
-    <iframe id="content-frame" src="" title="Content"></iframe>
-  </div>
+<div class="form-container">
+  <input type="text" id="doctorName" placeholder="Plastik Cerrahi Doktoru Adı">
+  <button class="btn" onclick="addDoctor()">Kaydet</button>
+</div>
 
-  <script>
-    // ShowPage işlevi
-    function showPage(page) {
-      // Sayfayı iframe içinde yükleyelim
-      document.getElementById('content-frame').src = page;
-    }
-  </script>
+<table id="doctorTable">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Plastik Cerrahi Doktoru Adı</th>
+      <th>İşlemler</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Firebase verileri buraya dinamik olarak eklenecek -->
+  </tbody>
+</table>
+
+<script>
+// Firebase Konfigürasyonu
+const firebaseConfig = {
+  apiKey: "AIzaSyCuMD2_NTb42XTrC_TvRPNCzQ__D7-ZDBY",
+  authDomain: "gcdbaaa.firebaseapp.com",
+  databaseURL: "https://gcdbaaa-default-rtdb.firebaseio.com",
+  projectId: "gcdbaaa",
+  storageBucket: "gcdbaaa.firebasestorage.app",
+  messagingSenderId: "740142411040",
+  appId: "1:740142411040:web:3535938c5a34d23e503b45",
+  measurementId: "G-N69CEGVF0Y"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const doctorsRef = db.ref("plastik_cerrahi_doktorlari");
+
+// Veriyi Firebase'e Kaydetme
+function addDoctor() {
+  const doctorName = document.getElementById("doctorName").value;
+  if (doctorName) {
+    const newDoctor = doctorsRef.push();
+    newDoctor.set({
+      name: doctorName
+    });
+    document.getElementById("doctorName").value = ''; // Input temizle
+  }
+}
+
+// Firebase'den verileri alma ve tabloya ekleme
+doctorsRef.on("child_added", function(snapshot) {
+  const doctor = snapshot.val();
+  const row = document.createElement("tr");
+
+  // # sütunu
+  const numberCell = document.createElement("td");
+  numberCell.innerText = '';
+  row.appendChild(numberCell);
+
+  // Plastik Cerrahi Doktoru Adı sütunu
+  const nameCell = document.createElement("td");
+  nameCell.innerText = doctor.name;
+  row.appendChild(nameCell);
+
+  // İşlemler sütunu (Düzenle ve Sil butonları)
+  const actionsCell = document.createElement("td");
+  const editButton = document.createElement("button");
+  editButton.innerText = "Düzenle";
+  editButton.onclick = function() {
+    editDoctor(snapshot.key);
+  };
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "Sil";
+  deleteButton.onclick = function() {
+    deleteDoctor(snapshot.key);
+  };
+  actionsCell.appendChild(editButton);
+  actionsCell.appendChild(deleteButton);
+  row.appendChild(actionsCell);
+
+  // Tabloya yeni satır ekle
+  document.getElementById("doctorTable").getElementsByTagName("tbody")[0].appendChild(row);
+});
+
+// Veriyi düzenleme
+function editDoctor(key) {
+  const newName = prompt("Yeni doktor adını girin:");
+  if (newName) {
+    doctorsRef.child(key).update({
+      name: newName
+    });
+  }
+}
+
+// Veriyi silme
+function deleteDoctor(key) {
+  if (confirm("Bu doktoru silmek istediğinizden emin misiniz?")) {
+    doctorsRef.child(key).remove();
+  }
+}
+</script>
 
 </body>
 </html>
